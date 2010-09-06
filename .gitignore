@@ -1,0 +1,7 @@
+bin
+build
+net
+project/boot
+project/build/target
+release
+target
