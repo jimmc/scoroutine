@@ -13,7 +13,7 @@ you should use dev 2.8.0 as of about August 20 2010 or a later version,
 which supports the "@constructor" comment tag.
 
 For background about delimited cotinuations, see my blog post
-<http://jim-mcbeath.blogspot.com/2010/08/delimited-continuations.html>.
+http://jim-mcbeath.blogspot.com/2010/08/delimited-continuations.html
 
 --
 Jim McBeath
