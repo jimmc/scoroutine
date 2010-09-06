@@ -47,12 +47,8 @@ trait CoScheduler { cosched =>
         val isBlocked = false
     }
 
-    /** Add an unnamed coroutine to the queue and mark it as ready to run.
-     * @param body The executable body of the coroutine.
-     */
-    def addRoutine(body: => Unit @suspendable) {
-        addRoutine("unnamed"){body}
-    }
+    //Can't have a version with just the body arg because we are using
+    //a curried parameter list on addRoutine(name)(body).
 
     /** Add a new coroutine to the queue and mark it as ready to run.
      * @param name The name of the coroutine, for logging and debugging.
