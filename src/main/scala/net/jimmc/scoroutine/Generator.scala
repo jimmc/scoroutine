@@ -17,7 +17,7 @@ class Generator[T] extends Iterator[T] {
     /** Subclass calls this method to generate values.
      * @param body The code for your generator.
      */
-    def generate(body: => Unit @suspendable) {
+    protected def generate(body: => Unit @suspendable) {
         sched.addRoutine("gen") { body }
         sched.run
     }

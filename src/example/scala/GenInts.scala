@@ -1,6 +1,6 @@
 import scala.util.continuations._
 
-import net.jimmc.scoroutine.Generator
+import net.jimmc.scoroutine.StandaloneGenerator
 
 object GenInts {
     def main(args:Array[String]) = {
@@ -12,7 +12,7 @@ object GenInts {
     }
 }
 
-class IntGen(max:Int) extends Generator[Int] {
+class IntGen(max:Int) extends StandaloneGenerator[Int] {
     generate {
         var x = 1
         while (x<=max) {
