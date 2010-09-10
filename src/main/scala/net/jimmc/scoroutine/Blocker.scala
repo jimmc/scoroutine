@@ -24,6 +24,7 @@ trait Blocker {
     /** Suspend the current coroutine and resume at some later point
      * (based on the scheduler) after isBlocked returns false. */
     def waitUntilNotBlocked:Unit @suspendable = {
-        scheduler.waitUntilNotBlocked(this)
+        if (isBlocked)
+            scheduler.waitUntilNotBlocked(this)
     }
 }

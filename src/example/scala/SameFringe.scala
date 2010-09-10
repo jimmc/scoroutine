@@ -1,5 +1,5 @@
 import scala.util.continuations._
-import net.jimmc.scoroutine.Generator
+import net.jimmc.scoroutine.StandaloneGenerator
 
 sealed abstract class Tree[T]
 case class Branch[T](left:Tree[T], right:Tree[T]) extends Tree[T]
@@ -34,7 +34,7 @@ object SameFringe {
     }
 }
 
-class TreeFringe[T](tree:Tree[T]) extends Generator[T] {
+class TreeFringe[T](tree:Tree[T]) extends StandaloneGenerator[T] {
     generate {
         def walk(t:Tree[T]):Unit @suspendable = {
             t match {

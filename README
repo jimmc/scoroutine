@@ -1,4 +1,4 @@
-net.jimmc.scoroutine  v1.0.0  2010-09-05
+net.jimmc.scoroutine  v1.0.2  2010-09-10
 
 A scala library to simplify writing coroutines and generators.
 
@@ -14,6 +14,14 @@ which supports the "@constructor" comment tag.
 
 For background about delimited cotinuations, see my blog post
 http://jim-mcbeath.blogspot.com/2010/08/delimited-continuations.html
+
+For a discussion of coroutines and this library, see my blog post
+http://jim-mcbeath.blogspot.com/2010/09/scala-coroutines.html
+
+For a discussion of generators, see my blog posts
+http://jim-mcbeath.blogspot.com/2010/09/scala-generators.html
+and
+http://jim-mcbeath.blogspot.com/2010/09/standalone-generic-scala-generator.html
 
 --
 Jim McBeath

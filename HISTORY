@@ -1,3 +1,8 @@
+scoroutine v1.0.2  September 10, 2010  First release
+
+    Fix Blocker.waitUntilNotBlocked to not call scheduler if not blocked.
+    Beef up ProdConTest to allow better testing of that change.
+
 scoroutine v1.0.1  September 8, 2010  First release
 
     Add StandaloneGenerator class.
