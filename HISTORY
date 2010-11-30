@@ -1,4 +1,8 @@
-scoroutine v1.0.2  September 10, 2010  First release
+scoroutine v1.0.3  November 29, 2010  Add AmbEval
+
+    Add AmbEval class as an example of nondeterministic evaluation.
+
+scoroutine v1.0.2  September 10, 2010  Bug fix
 
     Fix Blocker.waitUntilNotBlocked to not call scheduler if not blocked.
     Beef up ProdConTest to allow better testing of that change.

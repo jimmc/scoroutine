@@ -63,4 +63,16 @@ class StandaloneGenerator[T] extends Iterator[T] {
     private def step = {
         if (nextValue.isEmpty) nextStep foreach { nextStep = None; _() }
     }
+
+    /** This method is useful for nested executions of the stored continuation,
+     * such as from NonDetEval. */
+    def stepUntilDone:Unit @suspendable = {
+        //Use of var for saveStep is workaround for Scala bug #3501
+        var saveStep:(Unit=>Unit) = null
+        while (nextStep.isDefined) {
+            saveStep = nextStep.get
+            suspend     //sets nextStep to point here
+            saveStep()
+        }
+    }
 }
