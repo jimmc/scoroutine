@@ -1,9 +1,9 @@
-/* Copyright 2010 Jim McBeath under GPLv2 */
+/* Copyright 2010,2011 Jim McBeath under GPLv2 */
 
 package net.jimmc.scoroutine
 
 import scala.util.continuations._
-import scala.collection.mutable.Queue
+import scala.collection.mutable.SynchronizedQueue
 
 //Use scaladoc in version 2.8.0 after about August 24 in order for
 //the "@constructor" tag to work correctly.
@@ -19,7 +19,7 @@ import scala.collection.mutable.Queue
  *        element into the queue will be blocked.
  */
 class CoQueue[A](val scheduler:CoScheduler, val waitSize:Int)
-        extends Queue[A] { coqueue =>
+        extends SynchronizedQueue[A] { coqueue =>
 
     /** Blocks when the queue is full. */
     val enqueueBlocker = new Blocker() {
@@ -41,6 +41,7 @@ class CoQueue[A](val scheduler:CoScheduler, val waitSize:Int)
     def blockingEnqueue(x:A):Unit @suspendable = {
         enqueueBlocker.waitUntilNotBlocked
         enqueue(x)
+        scheduler.coNotify
     }
 
     /** Suspend the calling coroutine until there is a value ready to
@@ -50,6 +51,8 @@ class CoQueue[A](val scheduler:CoScheduler, val waitSize:Int)
      */
     def blockingDequeue():A @suspendable = {
         dequeueBlocker.waitUntilNotBlocked
-        dequeue
+        val x = dequeue
+        scheduler.coNotify
+        x
     }
 }

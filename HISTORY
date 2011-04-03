@@ -1,3 +1,10 @@
+scoroutine v1.0.4  April 2, 2011  Add coWait/coNotify, change run semantics
+
+    Add coWait/coNotify for multi-thread use.
+    Change CoQueue to use SynchronizedQueue.
+    Change CoScheduler.run to call coWait and run forever.
+    Fix counting bug in example ProdConTestWithSubs.
+
 scoroutine v1.0.3  November 29, 2010  Add AmbEval
 
     Add AmbEval class as an example of nondeterministic evaluation.

@@ -1,4 +1,4 @@
-/* Copyright 2010 Jim McBeath under GPLv2 */
+/* Copyright 2010,2011 Jim McBeath under GPLv2 */
 
 package net.jimmc.scoroutine
 
@@ -19,7 +19,7 @@ class Generator[T] extends Iterator[T] {
      */
     protected def generate(body: => Unit @suspendable) {
         sched.addRoutine("gen") { body }
-        sched.run
+        sched.runUntilBlockedOrDone
     }
 
     /** Yield the next generated value.
@@ -33,7 +33,7 @@ class Generator[T] extends Iterator[T] {
      * Call this from your main code.
      */
     def next:T = {
-        sched.run
+        sched.runUntilBlockedOrDone
         buf.dequeue
     }
 
@@ -41,7 +41,7 @@ class Generator[T] extends Iterator[T] {
      * Call this from your main code.
      */
     def hasNext:Boolean = {
-        sched.run
+        sched.runUntilBlockedOrDone
         !buf.dequeueBlocker.isBlocked
     }
 }

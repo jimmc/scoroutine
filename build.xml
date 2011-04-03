@@ -80,6 +80,7 @@
                 property="src.files"/>
         <pathconvert refid="scala.classpath" property="scala.cp"/>
         <exec executable="${scala.dir}/bin/scalac">
+            <arg value="-g"/>
             <arg value="-P:continuations:enable"/>
             <arg value="-sourcepath"/>
             <arg value="${src.dir}"/>

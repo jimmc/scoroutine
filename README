@@ -1,4 +1,4 @@
-net.jimmc.scoroutine  v1.0.3  2010-11-29
+net.jimmc.scoroutine  v1.0.4  2011-04-02
 
 A scala library to simplify writing coroutines and generators.
 

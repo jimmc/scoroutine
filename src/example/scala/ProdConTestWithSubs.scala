@@ -21,7 +21,7 @@ class ProduceAndConsume() {
     def run() {
         setUpProducer()
         setUpConsumer()
-        sched.run
+        sched.runUntilBlockedOrDone
     }
 
     def setUpProducer() {
@@ -31,6 +31,7 @@ class ProduceAndConsume() {
             var i = 0
             while (i < 4) {
                 produce(i)
+                i = i + 1
             }
             println("produce - end routine")
         }

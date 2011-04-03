@@ -37,6 +37,6 @@ class ProdCon(max:Int, qSize:Int) {
             }
             println("consume total is "+total)
         }
-        sched.run
+        sched.runUntilBlockedOrDone
     }
 }

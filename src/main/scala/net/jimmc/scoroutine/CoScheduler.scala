@@ -1,7 +1,8 @@
-/* Copyright 2010 Jim McBeath under GPLv2 */
+/* Copyright 2010,2011 Jim McBeath under GPLv2 */
 
 package net.jimmc.scoroutine
 
+import scala.annotation.tailrec
 import scala.util.continuations._
 
 /** Status indicating the results of a request to a scheduler
@@ -28,7 +29,9 @@ case object AllRoutinesDone extends RunStatus
  * @author Jim McBeath
  * @since 1.0
  */
-trait CoScheduler { cosched =>
+trait CoScheduler extends Runnable { cosched =>
+    private val defaultLock = new java.lang.Object
+
     private[scoroutine] def setRoutineContinuation(
             b:Blocker, cont:Option[Unit=>Unit]):Unit
     /** Find the next runnable coroutine and run it until it yields
@@ -36,6 +39,24 @@ trait CoScheduler { cosched =>
      * @return The status telling what happened.
      */
     def runNextUnblockedRoutine():RunStatus
+
+    /** Wait until we get notified via coNotify that we might have
+     * some work to do, or until the specified number of time in milliseconds
+     * has passed.
+     * The default implementation does a wait on our defaultLock.
+     */
+    def coWait():Unit = {
+        defaultLock.synchronized { defaultLock.wait() }
+    }
+
+    /** Notify us that a potentially blocked CoResource may have become ready
+     * due to actions in another coroutine.
+     * Subclass can override if it wants to use this info to optimize.
+     * The default implementation does a notify on our defaultLock.
+     */
+    def coNotify():Unit = {
+        defaultLock.synchronized { defaultLock.notify }
+    }
 
     /* We use a class rather than an object because we are using the
      * instance as a key to find more info about the associated routine. */
@@ -65,9 +86,6 @@ trait CoScheduler { cosched =>
         }
     }
 
-    /** Alias for runUntilBlockedOrDone. */
-    def run() = runUntilBlockedOrDone
-
     /** Alias for runNextUnblockedRoutine. */
     def runOne() = runNextUnblockedRoutine()
 
@@ -80,6 +98,14 @@ trait CoScheduler { cosched =>
             status = runNextUnblockedRoutine()
         }
         status
+    }
+
+    /** Run forever. */
+    def run {
+        while (true) {
+            runUntilBlockedOrDone
+            coWait
+        }
     }
 
     /** Save the continuation of the current coroutine,
